@@ -1,0 +1,88 @@
+/*
+*
+* 代码复用
+*/
+
+.hoverAnimation(@color) {
+    transition: all .4s;
+
+    &:hover {
+        /* color */
+        background-color: @color;
+    }
+}
+
+
+/*
+*
+*
+*/
+
+body {
+    /* typography */
+    font-size: 12px;
+    font-family: sans-serif;
+
+    /* layout */
+    width: 200px;
+    padding: 10px;
+
+    .button {
+        a {
+            /* color */
+            color: #FFF;
+            background-color: #74CCB5;
+
+            /* typography */
+            font-size: 16px;
+            font-weight: bold;
+
+            /* layout */
+            height: 30px;
+            line-height: 30px;
+            border-radius: 20px;
+            padding: 4px;
+
+            display: block;
+            text-decoration: none;
+            text-align: center;
+
+            .hoverAnimation(#529080);
+
+            &.disabled {
+                /* color */
+                background-color: #EC4A4A;
+
+                .hoverAnimation(#BB2B2B);
+            }
+        }
+    }
+
+    hr {
+        /* layout */
+        border: 1px solid rgba(171, 189, 167, 0.25);
+        margin: 30px 0 15px 0;
+    }
+
+    .about {
+        a {
+            /* color */
+            color: rgba(14, 177, 232, 0.63);
+
+            &:hover {
+                /* layout */
+                text-decoration: none;
+            }
+        }
+
+        a:nth-child(1) {
+            /* layout */
+            padding-right: 10px;
+        }
+
+        a:nth-child(2) {
+            /* layout */
+            padding-right: 10px;
+        }
+    }
+}
