@@ -15,7 +15,8 @@
         "run_at": "document_end"
     }],
     "permissions": [
-        "http://*.youdao.com/*",
+        "http://*.youdao.com/",
+        "https://*.youdao.com/",
         "storage"
     ],
     "browser_action": {

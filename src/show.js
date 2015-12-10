@@ -53,6 +53,7 @@ function loadYoudao() {
     if ( previousContent ) {
         panel.removeChild(previousContent);
     }
+    /*
     var content = document.createElement('iframe');
     content.setAttribute('frameborder', '0');
     content.setAttribute('src', 'http://dict.youdao.com/search?q=' + gb.searchTxt);
@@ -67,8 +68,24 @@ function loadYoudao() {
         }
         content.style.removeProperty('display');
     };
+    */
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', 'https://dict.youdao.com/search?q=' + gb.searchTxt, true);
+    xmlhttp.send();
+    xmlhttp.onreadystatechange = function() {
+        if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 ) {
+            var loading = document.getElementById('youdao-loading');
+            if ( loading ) {
+                panel.removeChild(loading);
+            }
+            //panel.innerHTML = xmlhttp.responseText;
+            //panel.innerHTML = xmlhttp.responseXML.getElementById('results');
+            var regExp = /(\<div /;
+        }
+    };
 
-    panel.appendChild(content);
+
+    //panel.appendChild(content);
 }
 
 
@@ -103,7 +120,8 @@ document.onmouseup = function(event) {
             var selText = selObj.toString();
 
             if ( selText ) {
-                gb.searchTxt = selText;
+                gb.searchTxt = encodeURIComponent(selText);
+                //gb.searchTxt = selText;
             } else {
                 closeYoudao();
             }
