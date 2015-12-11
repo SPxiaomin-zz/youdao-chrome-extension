@@ -23,16 +23,6 @@ function closeYoudao() {
 function initPanel() {
     var panel = document.createElement('div');
     panel.setAttribute('id', 'youdao');
-    panel.style.width = '400px';
-    panel.style.backgroundColor = '#EEF3F0';
-    panel.style.position = 'fixed';
-    panel.style.top = '0';
-    panel.style.left = '0';
-    panel.style.maxHeight = '100%';
-    panel.style.zIndex = '10000';
-    panel.style.textAlign = 'left';
-    panel.style.padding = '20px';
-    panel.style.overflow = 'auto';
 
     var loading = document.createElement('p');
     loading.innerHTML = '查询中，请稍候...';
@@ -40,7 +30,7 @@ function initPanel() {
     panel.appendChild(loading);
 
     document.body.appendChild(panel);
-    
+
     return panel;
 }
 
@@ -49,43 +39,53 @@ function loadYoudao() {
     closeYoudao();
     var panel = initPanel();
 
-    var previousContent = document.getElementById('youdao-content');
-    if ( previousContent ) {
-        panel.removeChild(previousContent);
-    }
-    /*
-    var content = document.createElement('iframe');
-    content.setAttribute('frameborder', '0');
-    content.setAttribute('src', 'http://dict.youdao.com/search?q=' + gb.searchTxt);
-    content.setAttribute('id', 'youdao-content');
-    content.style.display = 'none';
-    content.style.width = '100%';
-    content.style.height = window.innerHeight - 40 + 'px';
-    content.onload = function() {
-        var loading = document.getElementById('youdao-loading');
-        if ( loading ) {
-            panel.removeChild(loading);
-        }
-        content.style.removeProperty('display');
+    var DOMAppend = function (father, child, child2) {
+        father.appendChild(child).appendChild(child2);
     };
-    */
+
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', 'https://dict.youdao.com/search?q=' + gb.searchTxt, true);
-    xmlhttp.send();
+    xmlhttp.open('POST', 'https://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null', true);
+    xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xmlhttp.send('type=AUTO&i=' + gb.searchTxt  + '&doctype=json&xmlVersion=1.8&keyfrom=fanyi.web&ue=UTF-8&action=FY_BY_ENTER&typoResult=true');
+    
     xmlhttp.onreadystatechange = function() {
         if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 ) {
             var loading = document.getElementById('youdao-loading');
             if ( loading ) {
                 panel.removeChild(loading);
             }
-            //panel.innerHTML = xmlhttp.responseText;
-            //panel.innerHTML = xmlhttp.responseXML.getElementById('results');
-            var regExp = /(\<div /;
+            var resultObj = JSON.parse(xmlhttp.responseText);
+
+            var translateResult = resultObj.translateResult[0][0];
+            var src = translateResult.src;
+            var tgt = translateResult.tgt;
+
+            var li;
+            var liTxt;
+            var ul = document.createElement('ul');
+
+            var h2 = document.createElement('h2');
+            h2Txt = document.createTextNode(src);
+            DOMAppend(panel, h2, h2Txt);
+            
+            li = document.createElement('li');
+            liTxt = document.createTextNode(tgt);
+            DOMAppend(ul, li, liTxt);
+
+            var smartResult = resultObj.smartResult;
+            if ( smartResult ) {
+                var entries = smartResult.entries;
+            
+                for ( var i=1; i<entries.length; i++ ) {
+                    li = document.createElement('li');
+                    liTxt = document.createTextNode(entries[i]);
+                    DOMAppend(ul, li, liTxt);
+                }
+            }
+            
+            panel.appendChild(ul);
         }
     };
-
-
-    //panel.appendChild(content);
 }
 
 
@@ -120,8 +120,8 @@ document.onmouseup = function(event) {
             var selText = selObj.toString();
 
             if ( selText ) {
-                gb.searchTxt = encodeURIComponent(selText);
-                //gb.searchTxt = selText;
+                //gb.searchTxt = encodeURIComponent(selText);
+                gb.searchTxt = selText;
             } else {
                 closeYoudao();
             }
