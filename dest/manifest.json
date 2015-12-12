@@ -3,7 +3,7 @@
 
     "name": "有道划词查询",
     "version": "1.0.0",
-    "description": "基于有道的划词查询小插件，看英文文档必备",
+    "description": "基于有道的划词查询小插件，看英文文档必备，还提供了其它语言翻译的支持",
     "icons": {
         "16": "handian16.png",
         "48": "handian48.png",

@@ -1,8 +1,12 @@
 doctype html
 
 html(lang='zh-CN')
-    include includes/header
-    link(rel='stylesheet' href='./popup.css')
+    head
+        meta(charset='utf-8')
+        title= title
+        link(rel='shortcut icon' href='./handian32.png')
+        link(rel='stylesheet' href='./popup.css')
+
 
     body
         .button
@@ -11,8 +15,8 @@ html(lang='zh-CN')
         hr
 
         .about
-            a(href="#" target="_blank") 关于本项目
-            a(href="#" target="_blank") 作者
-            a(href="#" target="_blank") 有道
+            a(href="http://www.github.com/SPxiaomin/youdao-chrome-extension" target="_blank") 关于本项目
+            a(href="http://spxiaomin.github.io/github_blog/" target="_blank") 作者
+            a(href="http://fanyi.youdao.com" target="_blank") 有道
 
         script(src='./popup.js')

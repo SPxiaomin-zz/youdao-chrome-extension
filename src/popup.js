@@ -15,7 +15,7 @@ function addLoadEvent(newFunc) {
 }
 
 
-var enableSwitch = true;
+var enableSwitch = false;
 var button;
 
 

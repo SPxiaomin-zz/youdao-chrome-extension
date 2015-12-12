@@ -2,11 +2,17 @@
 
 ## 项目实际效果
 
+<img src="./effect.png" />
+<img src="./effect1.png" />
+<img src="./effect2.png" />
+<img src="./effect3.png" />
+<img src="./effect4.png" />
+
 ## 项目亮点
 
 - 利用 `xhr`  `cors` 技术实现内容的抓取
 - http，https 网站均可进行翻译，通过将请求的数据的 `http`://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null 改为 `https`://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null
-- 体验的翻译速度还算 `比较满意`
+- 体验的翻译速度还算 `比较满意`，视觉感也还算 `比较满意`
 
 ## 项目操作步骤
 
@@ -26,6 +32,7 @@
 - 项目目标达到，开始进行代码优化
 
     - 将原先写在 show.js 中通过 dom 改变样式的代码分离出来，创建 show.less ，达到样式与行为分离，方便代码错误检测和管理
+    - 将汇集在一个函数中的大量代码根据功能进行分离，创建小函数，方便查看代码逻辑以及错误检测
 
 ## 学习总结
 
@@ -43,3 +50,7 @@
 - JSON 数据解析处理
 
     - 学习资料 <http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001434499490767fe5a0e31e17e44b69dcd1196f7ec6fc6000>
+    
+## 结束语
+
+本项目自己独立完成，全靠官方文档和 google 搜索。总结出了一小点经验，有些知识还是带目的性的去学 - 边学边想着做个什么东西，这样才比较有效果，有目的性的学习。加油↖(^ω^)↗

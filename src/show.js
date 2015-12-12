@@ -1,10 +1,7 @@
 /* jshint browser:true,devel:true */
 /* global chrome */
 
-var gb = {
-    searchTxt: null,
-    enableSwitch: true
-};
+var searchTxt;
 
 
 function closeYoudao() {
@@ -35,18 +32,54 @@ function initPanel() {
 }
 
 
+function DOMAppend(father, child, child2) {
+    father.appendChild(child).appendChild(child2);
+}
+
+
+function getResult(panel, responseText) {
+    var resultObj = JSON.parse(responseText);
+
+    var translateResult = resultObj.translateResult[0][0];
+    var src = translateResult.src;
+    var tgt = translateResult.tgt;
+
+    var li;
+    var liTxt;
+    var ul = document.createElement('ul');
+
+    var h2 = document.createElement('h2');
+    var h2Txt = document.createTextNode(src);
+    DOMAppend(panel, h2, h2Txt);
+    
+    li = document.createElement('li');
+    liTxt = document.createTextNode(tgt);
+    DOMAppend(ul, li, liTxt);
+
+    var smartResult = resultObj.smartResult;
+    if ( smartResult ) {
+        var entries = smartResult.entries;
+    
+        for ( var i=1; i<entries.length; i++ ) {
+            li = document.createElement('li');
+            liTxt = document.createTextNode(entries[i]);
+            DOMAppend(ul, li, liTxt);
+        }
+    }
+
+    panel.appendChild(ul);
+}
+
+
 function loadYoudao() {
     closeYoudao();
     var panel = initPanel();
 
-    var DOMAppend = function (father, child, child2) {
-        father.appendChild(child).appendChild(child2);
-    };
 
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open('POST', 'https://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null', true);
     xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xmlhttp.send('type=AUTO&i=' + gb.searchTxt  + '&doctype=json&xmlVersion=1.8&keyfrom=fanyi.web&ue=UTF-8&action=FY_BY_ENTER&typoResult=true');
+    xmlhttp.send('type=AUTO&i=' + searchTxt  + '&doctype=json&xmlVersion=1.8&keyfrom=fanyi.web&ue=UTF-8&action=FY_BY_ENTER&typoResult=true');
     
     xmlhttp.onreadystatechange = function() {
         if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 ) {
@@ -54,36 +87,8 @@ function loadYoudao() {
             if ( loading ) {
                 panel.removeChild(loading);
             }
-            var resultObj = JSON.parse(xmlhttp.responseText);
-
-            var translateResult = resultObj.translateResult[0][0];
-            var src = translateResult.src;
-            var tgt = translateResult.tgt;
-
-            var li;
-            var liTxt;
-            var ul = document.createElement('ul');
-
-            var h2 = document.createElement('h2');
-            h2Txt = document.createTextNode(src);
-            DOMAppend(panel, h2, h2Txt);
             
-            li = document.createElement('li');
-            liTxt = document.createTextNode(tgt);
-            DOMAppend(ul, li, liTxt);
-
-            var smartResult = resultObj.smartResult;
-            if ( smartResult ) {
-                var entries = smartResult.entries;
-            
-                for ( var i=1; i<entries.length; i++ ) {
-                    li = document.createElement('li');
-                    liTxt = document.createTextNode(entries[i]);
-                    DOMAppend(ul, li, liTxt);
-                }
-            }
-            
-            panel.appendChild(ul);
+            getResult(panel, xmlhttp.responseText);
         }
     };
 }
@@ -120,8 +125,7 @@ document.onmouseup = function(event) {
             var selText = selObj.toString();
 
             if ( selText ) {
-                //gb.searchTxt = encodeURIComponent(selText);
-                gb.searchTxt = selText;
+                searchTxt = selText;
             } else {
                 closeYoudao();
             }
