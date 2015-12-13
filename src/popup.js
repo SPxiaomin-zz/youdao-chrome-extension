@@ -32,9 +32,10 @@ function toggle() {
     enableSwitch = !enableSwitch;
     chrome.storage.sync.set({
         'enableSwitch': enableSwitch
-    }, function() {});
+    }, function() {
+        updatePopup();
+    });
 
-    updatePopup();
 }
 
 
@@ -46,7 +47,6 @@ function init() {
         if ( result ) {
             enableSwitch =  result.enableSwitch;
         }
-
         updatePopup();
     });
 }
