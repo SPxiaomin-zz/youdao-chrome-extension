@@ -109,6 +109,18 @@ function showBtn(pos) {
     document.body.appendChild(button);
 }
 
+function close() {
+    var button = document.getElementById('btn');
+    if ( button ) {
+        button.style.display = 'none';
+    }
+
+    var panel = document.getElementById('panel');
+    if ( panel ) {
+        document.body.removeChild(panel);
+    }
+}
+
 document.onmouseup = function(event) {
     if ( event.target === document.getElementById('btn') ) {
         loadContent();
@@ -126,16 +138,10 @@ document.onmouseup = function(event) {
                 var pos = selObj.getRangeAt(0).getBoundingClientRect();
                 showBtn(pos);
             } else { //在未选中内容的时候，通过鼠标点击事件将 button 和 panel 去除
-                var button = document.getElementById('btn');
-                if ( button ) {
-                    button.style.display = 'none';
-                }
-
-                var panel = document.getElementById('panel');
-                if ( panel ) {
-                    document.body.removeChild(panel);
-                }
+                close();
             }
+        } else {
+            close();
         }
     });
 };
