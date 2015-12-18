@@ -92,7 +92,7 @@ function showBtn(pos) {
 
         var attr = [
             ['id', 'btn'],
-            ['src', 'https://github.com/SPxiaomin/youdao-chrome-extension/blob/master/dest/handian32.png']
+            ['src', 'https://raw.githubusercontent.com/SPxiaomin/youdao-chrome-extension/master/dest/handian32.png']
         ];
         setAttr(button, attr);
 
